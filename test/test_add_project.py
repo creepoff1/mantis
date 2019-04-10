@@ -1,31 +1,22 @@
-
-
-import string
-import random
-from model.project import Project
+from testdata.projects import Project
+import random, string
 
 
 
-def test_add_project(app):
-    old_list_project = app.soap.get_user_projects("administrator", "root")
-    if len(old_list_project) == 0:
-        app.project.create_new_project(Project(name="NewProject6"))
-    project = Project(name="NewProject7")
-    app.project.create_new_project(project)
-    new_list_project = app.soap.get_user_projects("administrator", "root")
-    assert len (old_list_project) + 1 == len (new_list_project)
-    old_list_project.append(project)
-    assert sorted(old_list_project, key=Project.sorted_key) == sorted(new_list_project, key=Project.sorted_key)
+def test_create_new_project(app):
+    user_config = app.config['webadmin']
+    app.session.login(user_config['user'], user_config['password'])
+    # if len(app.project.get_project_list()) == 0:
+    #     app.project.create_new_project(Project(name = randomword(), description="description1"))
+    old_projects = app.soap.get_user_projects(user_config['user'], user_config['password'])
+    app.project.create_new_project(Project(name = randomword(), description="description1"))
+    new_projects = app.soap.get_user_projects(user_config['user'], user_config['password'])
+    assert len(new_projects) == len(old_projects)+1
 
 
 
-# def test_add_project(app):
-#     if len(app.project.get_project_list()) == 0:
-#         app.project.create_new_project(Project(name="NewProject6"))
-#     old_list_project = app.project.get_project_list()
-#     project = Project(name="NewProject2")
-#     app.project.create_new_project(project)
-#     new_list_project = app.project.get_project_list()
-#     assert len (old_list_project) + 1 == len (new_list_project)
-#     old_list_project.append(project)
-#     assert sorted(old_list_project, key=Project.sorted_key) == sorted(new_list_project, key=Project.sorted_key)
+
+
+
+def randomword():
+    return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
