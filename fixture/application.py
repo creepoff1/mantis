@@ -5,7 +5,7 @@ from fixture.session import SessionHelper
 from fixture.session import SessionHelper
 from fixture.james import JamesHelper
 from fixture.signup import SignupHelper
-from fixture.mail import MailHelper
+from fixture.mail import MaiHelper
 from fixture.soap import SoapHelper
 
 
@@ -26,7 +26,7 @@ class Application:
         self.session = SessionHelper(self)
         self.james = JamesHelper(self)
         self.signup = SignupHelper(self)
-        self.mail = MailHelper(self)
+        self.mail = MaiHelper(self)
         self.soap = SoapHelper(self)
         self.config = config
         self.project = ProjectHelper(self)
@@ -34,7 +34,9 @@ class Application:
         self.user = config['web']['user']
         self.password = config['web']['password']
 
-# method for fixture vitality validation
+
+
+
     def is_valid(self):
         try:
             self.wd.current_url
@@ -49,25 +51,9 @@ class Application:
 
     @staticmethod
     def randomword(prefix, length):
-        # letters = string.ascii_letters + string.digits + string.punctuation + " "*10
-        # letters = string.ascii_letters + string.digits + " "*10
         letters = string.ascii_letters + string.digits + " "*10
         return prefix + ''.join([random.choice(letters) for i in range(random.randrange(length))])
 
-    # def loop_is_text_present(self, text, max_attempts=3):
-    #     attempt = 1
-    #     while True:
-    #         try:
-    #             return self.is_text_present(text)
-    #         except StaleElementReferenceException:
-    #             if attempt == max_attempts:
-    #                 raise
-    #             attempt += 1
-    #
-    # def is_text_present(self, text):
-    #     wd = self.wd
-    #     element = wd.find_element_by_xpath("//*[contains(text(),'"+text+"')]")
-    #     return element.text
 
     def destroy(self):
         self.wd.quit()

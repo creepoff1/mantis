@@ -4,7 +4,7 @@ import time
 
 
 
-class MailHelper:
+class MaiHelper:
 
     def __init__(self,app):
         self.app = app

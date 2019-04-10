@@ -5,7 +5,7 @@ import ftputil
 from fixture.application import Application
 
 
-# global variable where fixture is stored
+
 fixture = None
 parameters = None
 
@@ -40,7 +40,6 @@ def configure_server(request, config):
 
 def install_server_configuration(host, servername, password):
     with ftputil.FTPHost(host, servername, password) as remote:
-        # remote.use_list_a_option = False
         if remote.path.isfile("config_inc.php.bak"):
             remote.remove("config_inc.php.bak")
         if remote.path.isfile("config_inc.php"):
@@ -49,7 +48,6 @@ def install_server_configuration(host, servername, password):
 
 def restore_server_configuration(host, servername, password):
     with ftputil.FTPHost(host, servername, password) as remote:
-        # remote.use_list_a_option = False
         if remote.path.isfile("config_inc.php.bak"):
             if remote.path.isfile("config_inc.php"):
                 remote.remove("config_inc.php")
@@ -60,13 +58,12 @@ def restore_server_configuration(host, servername, password):
 @pytest.fixture(scope="session", autouse=True)
 def stop(request):
     def fin():
-        # fixture.session.ensure_logout()
         fixture.destroy()
     request.addfinalizer(fin)
     return fixture
 
 def pytest_addoption(parser):
-    parser.addoption("--browser", action = "store", default = "firefox")
+    parser.addoption("--browser", action = "store", default = "ie")
     parser.addoption("--target", action = "store", default = "parameters.json")
 
 
