@@ -36,7 +36,9 @@ class ProjectHelper:
         wd = self.app.wd
         self.go_to_project_list_page()
         self.go_to_create_project_page()
+        # fill group form
         self.fill_project_fields(project)
+        # submit group creation
         wd.find_element_by_xpath("//input[@value='Add Project']").click()
         self.go_back_to_projects_page()
 
@@ -54,6 +56,7 @@ class ProjectHelper:
     def delete_project(self, name):
         wd = self.app.wd
         self.go_to_project_list_page()
+        # self.open_manage_project()
         wd.find_element_by_xpath("//a[contains(text(), '%s')]" % name).click()
         wd.find_element_by_xpath("//input[@value='Delete Project']").click()
         wd.find_element_by_xpath("//input[@value='Delete Project']").click()

@@ -36,7 +36,7 @@ class Application:
 
 
 
-
+# method for fixture vitality validation
     def is_valid(self):
         try:
             self.wd.current_url
@@ -51,6 +51,8 @@ class Application:
 
     @staticmethod
     def randomword(prefix, length):
+        # letters = string.ascii_letters + string.digits + string.punctuation + " "*10
+        # letters = string.ascii_letters + string.digits + " "*10
         letters = string.ascii_letters + string.digits + " "*10
         return prefix + ''.join([random.choice(letters) for i in range(random.randrange(length))])
 

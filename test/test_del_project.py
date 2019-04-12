@@ -13,6 +13,11 @@ def test_delete_project (app):
     app.project.delete_project(old_list[index].name)
     new_list = app.soap.get_user_projects()
     assert len(old_list) - 1 == len(new_list)
+    old_list.remove(old_list[index])
+    for x in range(len(new_list)):
+        assert old_list[x].id == new_list[x].id
+        assert old_list[x].name == new_list[x].name
+        assert old_list[x].description == new_list[x].description
 
 
 def randomword():

@@ -5,7 +5,6 @@ import ftputil
 from fixture.application import Application
 
 
-
 fixture = None
 parameters = None
 
@@ -58,7 +57,7 @@ def restore_server_configuration(host, servername, password):
 @pytest.fixture(scope="session", autouse=True)
 def stop(request):
     def fin():
-        fixture.destroy()
+         fixture.destroy()
     request.addfinalizer(fin)
     return fixture
 

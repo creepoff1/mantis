@@ -1,5 +1,6 @@
 from suds.client import Client
 from suds import WebFault
+from model.project import Project
 
 class SoapHelper:
 
@@ -17,8 +18,10 @@ class SoapHelper:
     def get_user_projects(self):
         client = Client(self.app.config['soap']['url'])
         try:
-            response = list(client.service.mc_projects_get_user_accessible(self.app.config['webadmin']['user'], self.app.config['webadmin']['password']))
-            return response
+            return [Project(project.id, project.name, project.description)
+                    for project in client.service.mc_projects_get_user_accessible(self.app.config['webadmin']['user'], self.app.config['webadmin']['password'])]
+            # response = list(client.service.mc_projects_get_user_accessible(self.app.config['webadmin']['user'], self.app.config['webadmin']['password']))
+            # return response
         except WebFault:
             return False
 
